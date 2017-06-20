@@ -6,31 +6,40 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cats: [],
-      yes_cats: [],
-      no_cats: []
+      posts: [],
+      yes_posts: [],
+      no_posts: []
     }
     this.like = this.like.bind(this);
     this.dislike = this.dislike.bind(this);
+    this.remove = this.remove.bind(this);
   }
 
   componentWillMount() {
-    const images = tumblr_api_read.posts.map((post) => post["photo-url-400"]);
-    this.setState({
-      cats: images
-    });
+    const posts = tumblr_api_read.posts;
+    this.setState({posts});
   }
 
   like() {
-    const [liked, ...cats] = this.state.cats;
-    const yes_cats = [liked, ...this.state.yes_cats]
-    this.setState({cats, yes_cats}); 
+    const [liked, ...posts] = this.state.posts;
+    const yes_posts = [liked, ...this.state.yes_posts]
+    this.setState({posts, yes_posts}); 
   }
 
   dislike() {
-    const [disliked, ...cats] = this.state.cats;
-    const no_cats = [disliked, ...this.state.no_cats]
-    this.setState({cats, no_cats});
+    const [disliked, ...posts] = this.state.posts;
+    const no_posts = [disliked, ...this.state.no_posts]
+    this.setState({posts, no_posts});
+  }
+
+  remove(post) {
+    const yes_posts = this.state.yes_posts.filter((yes_post) => {
+      return yes_post.id != post.id
+    })
+    const no_posts = this.state.no_posts.filter((no_post) => {
+      return no_post.id != post.id
+    })
+    this.setState({yes_posts, no_posts});
   }
 
   _renderHeader(){
@@ -57,13 +66,13 @@ class App extends Component {
         {this._renderHeader()}
         <div className="row">
           <div className="col-md-3">
-            {this.state.no_cats.map((image) => <Card image={image}/> )}
+            {this.state.no_posts.map((post) => <Card post={post} key={post.id} remove={this.remove}/> )}
           </div>
           <div className="col-md-6">
-            <Card image={this.state.cats[0]} like={this.like} dislike={this.dislike}/>
+            <Card post={this.state.posts[0]} like={this.like} dislike={this.dislike}/>
           </div>
           <div className="col-md-3">
-            {this.state.yes_cats.map((image) => <Card image={image}/> )}
+            {this.state.yes_posts.map((post) => <Card post={post} key={post.id} remove={this.remove}/> )}
           </div>
         </div>
       </div>

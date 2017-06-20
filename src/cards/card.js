@@ -31,9 +31,19 @@ export default class Card extends Component {
         //Recibe props y state para pre-calcular cosas antes del render
     }
 
+    renderHeader() {
+       if(!this.props.like || !this.props.dislike) {
+            return (
+                <div className="text-right" onClick={()=> this.props.remove(this.props.post)}>
+                    <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </div>
+            );
+        }
+    }
+
     renderButtons(){
-        if(!this.props.image || !this.props.like || !this.props.dislike) {
-            return '';
+        if(!this.props.post || !this.props.like || !this.props.dislike) {
+            return "";
         }
         return(
             <div className="row text-center m-t-lg">
@@ -51,29 +61,30 @@ export default class Card extends Component {
         );
     }
 
-    noImage() {
+    noPost() {
         return (
             <div>
                 <h1 className='text-center'>
                     <span className="glyphicon glyphicon-star" aria-hidden="true"></span>
                 </h1>
-                <h5 className='text-center'>No más gatos por hoy</h5>
+                <h5 className='text-center'>No más posts por hoy</h5>
             </div>
         );
     }
 
     render() {
         console.log("PINTANDO!!");
-        if(!this.props.image) {
-            return this.noImage();
+        if(!this.props.post) {
+            return this.noPost();
         }
         //NO MANEJAR EL DOM AQUI!
         return(
             <div className="col-md-8 col-md-offset-2">
                 <div className="well">
+                    {this.renderHeader()}
                     <div className="row">
                         <div className="col-md-12 text-center">
-                            <img src={this.props.image} className='img-responsive'/>
+                            <img src={this.props.post['photo-url-400']} className='img-responsive'/>
                         </div>
                     </div>
                     {this.renderButtons()}
