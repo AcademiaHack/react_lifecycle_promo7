@@ -21,6 +21,7 @@ export default class Card extends Component {
         console.log("Componente esta evaluando si deberia repintar!");
         //No ejecuta la primera vez!
         //Recibie prop y state para determinar si se debe repintar!
+        //NO CAMBIAR EL STATE
         //Retorna boolean!
         return true;
     }
@@ -29,6 +30,7 @@ export default class Card extends Component {
         console.log("El componente va a repintar!");
         //No ejecuta la primera vez!
         //Recibe props y state para pre-calcular cosas antes del render
+        //NO CAMBIAR EL STATE
     }
 
     renderHeader() {
