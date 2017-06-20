@@ -1,19 +1,13 @@
 import React, {Component} from 'react';
+import './card.scss';
 
-export default class Tweet extends Component {
+export default class MiniCard extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            body: '!'
-        }
-        this.changeMe = this.changeMe.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
         console.log("Componente va a recibir PROPS!");
-        this.setState({
-           //set something 
-        });
         //No ejecuta la primera vez!
         //Pre-calcular la llegada de props, normalmente se almacena data en el STATE!
     }
@@ -37,20 +31,30 @@ export default class Tweet extends Component {
         //Recibe props y state para pre-calcular cosas antes del render
     }
 
-    changeMe() {
-        this.setState({
-            body:"CLICKED!!"
-        });
-        this.props.changeAlert("HOLA!!!");
-    }
-
     render() {
         console.log("PINTANDO!!");
         //NO MANEJAR EL DOM AQUI!
         return(
-            <div className="testing">
-                <h1 onClick={this.changeMe}>Esto es un tweet!!</h1>
-                <p>{this.state.body}</p>
+            <div className="col-md-8 col-md-offset-2">
+                <div className="well">
+                    <div className="row">
+                        <div className="col-md-12 text-center">
+                            <img src={this.props.image}/>
+                        </div>
+                    </div>
+                    <div className="row text-center m-t-lg">
+                        <div className="col-md-6">
+                            <div className="btn btn-fab btn-danger btn-tinder">
+                                <span className="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="btn btn-fab btn-success btn-tinder" onClick={this.props.like}>
+                                <span className="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
