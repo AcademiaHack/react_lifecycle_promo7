@@ -32,7 +32,7 @@ export default class Card extends Component {
     }
 
     renderButtons(){
-        if(!this.props.like || !this.props.dislike) {
+        if(!this.props.image || !this.props.like || !this.props.dislike) {
             return '';
         }
         return(
@@ -51,8 +51,22 @@ export default class Card extends Component {
         );
     }
 
+    noImage() {
+        return (
+            <div>
+                <h1 className='text-center'>
+                    <span className="glyphicon glyphicon-star" aria-hidden="true"></span>
+                </h1>
+                <h5 className='text-center'>No más gatos por hoy</h5>
+            </div>
+        );
+    }
+
     render() {
         console.log("PINTANDO!!");
+        if(!this.props.image) {
+            return this.noImage();
+        }
         //NO MANEJAR EL DOM AQUI!
         return(
             <div className="col-md-8 col-md-offset-2">

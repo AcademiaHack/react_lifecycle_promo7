@@ -6,6 +6,8 @@ module.exports = {
     filename: 'bundle.js'
   },
   devServer: {
+    host: '0.0.0.0',
+    disableHostCheck: true,
     open: true,
     inline: true,
     publicPath: '/dist/'
