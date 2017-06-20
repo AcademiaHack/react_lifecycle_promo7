@@ -33,7 +33,7 @@ export default class Card extends Component {
         //NO CAMBIAR EL STATE
     }
 
-    renderHeader() {
+    _renderHeader() {
        if(!this.props.like || !this.props.dislike) {
             return (
                 <div className="text-right" onClick={()=> this.props.remove(this.props.post)}>
@@ -43,7 +43,7 @@ export default class Card extends Component {
         }
     }
 
-    renderButtons(){
+    _renderButtons(){
         if(!this.props.post || !this.props.like || !this.props.dislike) {
             return "";
         }
@@ -63,7 +63,7 @@ export default class Card extends Component {
         );
     }
 
-    noPost() {
+    _noPost() {
         return (
             <div>
                 <h1 className='text-center'>
@@ -77,19 +77,19 @@ export default class Card extends Component {
     render() {
         console.log("PINTANDO!!");
         if(!this.props.post) {
-            return this.noPost();
+            return this._noPost();
         }
         //NO MANEJAR EL DOM AQUI!
         return(
             <div className="col-md-8 col-md-offset-2">
                 <div className="well">
-                    {this.renderHeader()}
+                    {this._renderHeader()}
                     <div className="row">
                         <div className="col-md-12 text-center">
                             <img src={this.props.post['photo-url-400']} className='img-responsive'/>
                         </div>
                     </div>
-                    {this.renderButtons()}
+                    {this._renderButtons()}
                 </div>
             </div>
         )
