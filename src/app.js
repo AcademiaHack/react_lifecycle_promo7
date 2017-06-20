@@ -1,78 +1,76 @@
 import React, { Component } from 'react';
-import Card from './cards/card'
+import Dispatcher from './dispatcher';
 
 class App extends Component {
   
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
-      yes_posts: [],
-      no_posts: []
+      people: ['P1','P2','P3','P4','P5'],
+      line: [],
+      line2: [],
+      line3: [],
+      nextInterval: 0
     }
-    this.like = this.like.bind(this);
-    this.dislike = this.dislike.bind(this);
-    this.remove = this.remove.bind(this);
+    this.nextLine2 = this.nextLine2.bind(this);
+    this.nextLine3 = this.nextLine3.bind(this);
   }
 
   componentWillMount() {
-    const posts = tumblr_api_read.posts;
-    this.setState({posts});
+    this._nextPerson();
+    const nextInterval = setInterval(() => { this._nextPerson() }, 10000);
+    this.setState({nextInterval});
   }
 
-  like() {
-    const [liked, ...posts] = this.state.posts;
-    const yes_posts = [liked, ...this.state.yes_posts]
-    this.setState({posts, yes_posts}); 
+  _nextPerson() {
+    const [nextPerson, ...people] = this.state.people;
+    const line = [...this.state.line, nextPerson];
+    if(nextPerson) {
+      this.setState({people, line});
+    }
   }
 
-  dislike() {
-    const [disliked, ...posts] = this.state.posts;
-    const no_posts = [disliked, ...this.state.no_posts]
-    this.setState({posts, no_posts});
+  nextLine2() {
+    const [nextPerson, ...line] = this.state.line;
+    const line2 = [...this.state.line2, nextPerson];
+    if(nextPerson) {
+      this.setState({line, line2});
+    }
   }
 
-  remove(post) {
-    const yes_posts = this.state.yes_posts.filter((yes_post) => {
-      return yes_post.id != post.id
-    })
-    const no_posts = this.state.no_posts.filter((no_post) => {
-      return no_post.id != post.id
-    })
-    this.setState({yes_posts, no_posts});
-  }
-
-  _renderHeader(){
-    return(
-      <div className="row well well-sm">
-        <div className="col-md-3">
-          <h2 className='text-center text-danger'>
-            <span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-          </h2>
-        </div>
-        <div className="col-md-6"><h1 className='text-center tinder-title'>TinderCats</h1></div>
-        <div className="col-md-3">
-          <h2 className='text-center text-success'>
-            <span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-          </h2>
-        </div>
-      </div>
-    );
+  nextLine3() {
+    const [nextPerson, ...line2] = this.state.line2;
+    const line3 = [...this.state.line3, nextPerson];
+    if(nextPerson) {
+      this.setState({line2, line3});
+    }
   }
 
   render() {
     return(
       <div className="container">
-        {this._renderHeader()}
         <div className="row">
-          <div className="col-md-3">
-            {this.state.no_posts.map((post) => <Card post={post} key={post.id} remove={this.remove}/> )}
+          <div className="col-md-2">
+            <div className="well text-center">
+              {this.state.people.map((person) => <h3>{person}</h3>)}
+            </div>
           </div>
-          <div className="col-md-6">
-            <Card post={this.state.posts[0]} like={this.like} dislike={this.dislike}/>
+          <div className="col-md-3">
+            <div className="well text-center">
+              <Dispatcher order={[1,4,3,2]} nextLine={this.nextLine2}/>
+              {this.state.line.map((person) => <h3>{person}</h3>)}
+            </div>
           </div>
           <div className="col-md-3">
-            {this.state.yes_posts.map((post) => <Card post={post} key={post.id} remove={this.remove}/> )}
+            <div className="well text-center">
+              <Dispatcher order={[2,3,1,4]} nextLine={this.nextLine3}/>
+              {this.state.line2.map((person) => <h3>{person}</h3>)}
+            </div>
+          </div>
+          <div className="col-md-3">
+            <div className="well text-center">
+              {this.state.line3.map((person) => <h3>{person}</h3>)}
+            </div>
           </div>
         </div>
       </div>
