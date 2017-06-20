@@ -33,7 +33,7 @@ class App extends Component {
     this.setState({cats, no_cats});
   }
 
-  renderHeader(){
+  _renderHeader(){
     return(
       <div className="row well well-sm">
         <div className="col-md-3">
@@ -41,7 +41,7 @@ class App extends Component {
             <span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
           </h2>
         </div>
-        <div className="col-md-6"><h1 className='text-center'>TinderCats</h1></div>
+        <div className="col-md-6"><h1 className='text-center tinder-title'>TinderCats</h1></div>
         <div className="col-md-3">
           <h2 className='text-center text-success'>
             <span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
@@ -54,7 +54,7 @@ class App extends Component {
   render() {
     return(
       <div className="container">
-        {this.renderHeader()}
+        {this._renderHeader()}
         <div className="row">
           <div className="col-md-3">
             {this.state.no_cats.map((image) => <Card image={image}/> )}
